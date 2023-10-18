@@ -1,0 +1,46 @@
+<div class=" w-100 ">
+    <div class="container py-4 shadow-sm" style="display: flex; justify-content: space-between;">
+        <h5>Itinerario</h5>
+        <button-component [icon]="'add_circle_outline'" (click)="modal(true)"></button-component>
+    </div>
+    <div class="container mt-3">
+        <div class="row" cdkDropListGroup>
+            <div class="col-3">
+                <h6>Sin Fecha asignada</h6>
+                <div cdkDropList [cdkDropListData]="drafts" class="example-list" (cdkDropListDropped)="onDrop($event)">
+                    <card-component style="cursor: move;" *ngFor="let item of drafts" cdkDrag [type]="item.type"
+                        [title]="item.title"></card-component>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <h6>In progress</h6>
+                <div cdkDropList [cdkDropListData]="inProgress" class="example-list"
+                    (cdkDropListDropped)="onDrop($event)">
+                    <card-component style="cursor: move;" *ngFor="let item of inProgress" cdkDrag [type]="item.type"
+                        [title]="item.title"></card-component>
+                </div>
+            </div>
+            <div class="col-3">
+                <h6>Done</h6>
+                <div cdkDropList [cdkDropListData]="done" class="example-list" (cdkDropListDropped)="onDrop($event)">
+                    <card-component style="cursor: move;" *ngFor="let item of done" cdkDrag [type]="item.type"
+                        [title]="item.title"></card-component>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="modalWindow" class="drawer" (click)="modal(false)">
+</div>
+<form *ngIf="modalWindow" class="drawer-content" [formGroup]="form">
+    <div class="w-100 p-3 bg-primary text-white">
+        Agregar una nueva actividad
+    </div>
+    <div class="container">
+        <mat-form-field appearance="outline" style="color:var(--bs-blue);margin-top: 20px;">
+            <mat-label>Nombre de la nueva actividad</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+    </div>
+</form>
