@@ -1,11 +1,11 @@
 <div class=" w-100 ">
-    <div class="container py-4 shadow-sm" style="display: flex; justify-content: space-between;">
+    <div class="p-4 shadow-sm" style="display: flex; justify-content: space-between;">
         <h5>Itinerario</h5>
         <button-component [icon]="'add_circle_outline'" (click)="modal(true)"></button-component>
     </div>
-    <div class="container mt-3">
+    <div class="p-4 mt-1">
         <div class="row" cdkDropListGroup>
-            <div class="col-3">
+            <div class="col-12 col-md-4">
                 <h6>Sin Fecha asignada</h6>
                 <div cdkDropList [cdkDropListData]="drafts" class="example-list" (cdkDropListDropped)="onDrop($event)">
                     <card-component style="cursor: move;" *ngFor="let item of drafts" cdkDrag [type]="item.type"
@@ -13,7 +13,7 @@
                 </div>
             </div>
 
-            <div class="col-3">
+            <div class="col-12 col-md-4">
                 <h6>In progress</h6>
                 <div cdkDropList [cdkDropListData]="inProgress" class="example-list"
                     (cdkDropListDropped)="onDrop($event)">
@@ -21,7 +21,7 @@
                         [title]="item.title"></card-component>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-4">
                 <h6>Done</h6>
                 <div cdkDropList [cdkDropListData]="done" class="example-list" (cdkDropListDropped)="onDrop($event)">
                     <card-component style="cursor: move;" *ngFor="let item of done" cdkDrag [type]="item.type"

@@ -1,0 +1,9 @@
+.navBar{
+    height: auto;
+    width: 100%;
+}
+@media (min-width:768px) {
+    .navBar{
+        min-height: 100vh;
+    }
+}
