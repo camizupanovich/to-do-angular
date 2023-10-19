@@ -1,4 +1,4 @@
 <button class="btn btn-primary" type="button" style="display: flex; align-items: center;">
-    <mat-icon class="me-2">{{icon}}</mat-icon>
-    Nueva actividad
+    <mat-icon class="me-2" *ngIf="icon">{{icon}}</mat-icon>
+    {{label}}
 </button>
