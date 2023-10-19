@@ -1,6 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import {FormGroup,FormBuilder,FormControl} from '@angular/forms'
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms'
+import { Activity, ToDoService } from 'src/app/services/to-do.service';
 @Component({
     selector: 'to-do-component',
     templateUrl: './to-do.component.html',
@@ -8,50 +9,36 @@ import {FormGroup,FormBuilder,FormControl} from '@angular/forms'
 })
 export class ToDoComponent implements OnInit {
 
-    modalWindow:boolean=false;
-    form!:FormGroup;
-    constructor( private fb : FormBuilder){}
+    modalWindow: boolean = false;
+    form!: FormGroup;
+    private fb = inject(FormBuilder);
+    private service = inject(ToDoService);
+    drafts: Activity[] = [];
+    inProgress: Activity[] = [];
+    done: Activity[] = [];
+    types: String[] = [];
     ngOnInit() {
         this.form = this.fb.group({
-            name:['']
+            name: ['']
         })
+        this.service.getActivities().then((activities) => {
+            activities.forEach((e: Activity) => {
+                if (e.status === 'DONE') {
+                    this.done.push(e);
+                } else if (e.status === 'IN_PROGRESS') {
+                    this.inProgress.push(e);
+                } else {
+                    this.drafts.push(e);
+                }
+            });
+        }).catch((error) => {
+            console.log(error)
+        });
+        this.types = this.service.getTypes()
+
     }
-    // Transfer Items Between Lists
-    drafts = [
-        {
-            activityId: 3,
-            title: "Desayuno",
-            type: "FOOD",
-            startDate: null,
-            endDate: null,
-            status: null,
-        },
-    ]
-
-    inProgress = [
-        {
-            activityId: 1,
-            title: "Subida al cerro catedral",
-            type: "ACTIVITY",
-            startDate: "2022-01-22 01:30:00",
-            endDate: "2022-01-22 23:30:00",
-            status: "IN_PROGRESS",
-        },
-    ];
-
-    done = [
-        {
-            activityId: 2,
-            title: "Fiesta de espuma",
-            type: "PARTY",
-            startDate: "2022-01-22 01:30:00",
-            endDate: "2022-01-22 23:30:00",
-            status: "DONE",
-        },
-
-    ]
-    modal(action:boolean){
-        this.modalWindow=action
+    modal(action: boolean) {
+        this.modalWindow = action
     }
     onDrop(event: CdkDragDrop<any>) {
         if (event.previousContainer === event.container) {

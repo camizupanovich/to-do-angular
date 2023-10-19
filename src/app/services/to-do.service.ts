@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class PreliquidacionesService {
+export class ToDoService {
     //Nueva injeccion de angular 16
-    private http = inject(HttpClient)
+    //private http = inject(HttpClient)
 
     //actividades en memoria
     public activities = [{
@@ -37,8 +36,8 @@ export class PreliquidacionesService {
     //tipos de actividad en memoria
     private types = ['FOOD', 'PARTY', 'ACTIVITY']
 
-    public getActivities() {
-        return this.activities
+    public getActivities(): Promise<Activity[]> {
+        return Promise.resolve(this.activities);
     }
 
     public postActivity(body: any) {
@@ -55,4 +54,12 @@ export class PreliquidacionesService {
     public getTypes() {
         return this.types;
     }
+}
+export interface Activity {
+    activityId: number;
+    title: string;
+    type: string;
+    startDate?: string | null;
+    endDate?: string | null;
+    status?: string | null;
 }
