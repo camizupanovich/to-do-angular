@@ -6,11 +6,16 @@ import { CardComponent } from './card/card.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { SelectComponent } from './select/select.component';
+import { SpinnerComponent } from './spinner/spinner.component';
+
 
 @NgModule({
   declarations: [
     ButtonComponent,
     CardComponent,
+    SelectComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -18,11 +23,13 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatIconModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ],
   exports: [
     ButtonComponent,
     CardComponent,
+    SelectComponent,
+    SpinnerComponent
   ],
 })
 export class SharedModule { }

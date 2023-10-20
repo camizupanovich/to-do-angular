@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input,Output,EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'button-component',
@@ -7,4 +7,11 @@ import { Component, Input } from '@angular/core';
 export class ButtonComponent {
     @Input() icon?: string ;
     @Input() label!: string ;
+    @Input() filled!: boolean ;
+    @Output() emiter :EventEmitter<any> = new EventEmitter(); 
+    @Input() disable?:boolean;
+
+    disparaEvento(){
+        this.emiter.emit();
+    }
 }

@@ -1,0 +1,15 @@
+<div [formGroup]="form" class="row w-100" style="margin-top: 20px; color: var(--bs-secondary); opacity:0.7;">
+    <div class="col-12">
+        <label style="width: 100%;">{{label}}</label>
+        <select formControlName="type" style="    width: 100%;
+        border-radius: 6px;
+        padding: 10px;
+        font-size: 16px;
+        margin-top: 10px;">
+            <ng-container *ngFor="let item of items">
+                <option [value]="item">{{item}}
+                </option>
+            </ng-container>
+        </select>
+    </div>
+</div>

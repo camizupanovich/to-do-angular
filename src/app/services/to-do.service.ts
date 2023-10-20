@@ -40,23 +40,23 @@ export class ToDoService {
         return Promise.resolve(this.activities);
     }
 
-    public postActivity(body: any) {
+    public postActivity(body: any): Promise<Activity[]> {
         body['actividyId'] = this.activities.length + 1
         this.activities.push(body);
-        return this.activities
+        return Promise.resolve(this.activities);
     }
 
-    public putActivity(body: any) {
+    public putActivity(body: any): Promise<Activity[]> {
         const index = this.activities.findIndex(a => a.activityId === body.activityId);
         this.activities[index] = body;
-        return this.activities
+        return Promise.resolve(this.activities);
     }
     public getTypes() {
         return this.types;
     }
 }
 export interface Activity {
-    activityId: number;
+    activityId?: number;
     title: string;
     type: string;
     startDate?: string | null;
