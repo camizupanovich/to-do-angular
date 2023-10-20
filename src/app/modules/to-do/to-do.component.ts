@@ -23,12 +23,14 @@ export class ToDoComponent implements OnInit {
     types: any = [];
     /* Simula tiempo servicio */
     loading: boolean = false;
+    /* Tipo de form */
+    view: string = ''
     ngOnInit() {
         this.form = this.fb.group({
-            title: ['',[Validators.required]],
+            title: ['', [Validators.required]],
             endDate: [''],
             startDate: [''],
-            type: ['',[Validators.required]]
+            type: ['', [Validators.required]]
         })
         this.service.getActivities().then((activities) => {
             activities.forEach((e: Activity) => {
@@ -46,8 +48,16 @@ export class ToDoComponent implements OnInit {
         this.types = this.service.getTypes()
 
     }
-    modal(action: boolean) {
-        this.modalWindow = action
+    modal(action: boolean, view: string, obj?: any) {
+        this.modalWindow = action;
+        this.view = view;
+        !action ? this.form.reset() : null;
+        if (obj) {
+            this.form.get('title')?.setValue(obj.title);
+            this.form.get('startDate')?.setValue(obj.startDate);
+            this.form.get('endDate')?.setValue(obj.endDate);
+            this.form.get('type')?.setValue(obj.type);
+        }
     }
     onDrop(event: CdkDragDrop<any>) {
         if (event.previousContainer === event.container) {
@@ -69,20 +79,34 @@ export class ToDoComponent implements OnInit {
                 status: null,
                 type: this.form.get('type')?.value
             }
-            return this.service.postActivity(reqBody).then(() => {
-                console.log(reqBody)
-                this.drafts.push(reqBody)
-            }).finally(() =>
-                /* Simula servicio */
-                setTimeout(() => {
-                    this.form.reset();
-                    this.loading = false;
-                    this.modal(false);
-                }, 3000)
-            )
+            if (this.view === 'agrega') {
+                return this.service.postActivity(reqBody).then(() => {
+                    console.log(reqBody)
+                    this.drafts.push(reqBody)
+                }).finally(() =>
+                    /* Simula servicio */
+                    setTimeout(() => {
+                        this.form.reset();
+                        this.loading = false;
+                        this.modal(false, '');
+                    }, 3000)
+                )
+            } else {
+                return this.service.putActivity(reqBody).then(() => {
+                    console.log(reqBody)
+                    this.drafts.push(reqBody)
+                }).finally(() =>
+                    /* Simula servicio */
+                    setTimeout(() => {
+                        this.form.reset();
+                        this.loading = false;
+                        this.modal(false, '');
+                    }, 3000)
+                )
+            }
         }
-        else{
-            return this.loading=false;
+        else {
+            return this.loading = false;
         }
     }
 }

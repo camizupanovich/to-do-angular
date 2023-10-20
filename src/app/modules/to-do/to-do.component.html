@@ -2,15 +2,18 @@
     <div class="p-4 shadow-sm" style="display: flex; justify-content: space-between;">
         <h5>Itinerario</h5>
         <button-component [icon]="'add_circle_outline'" [label]="'Nueva actividad'" [filled]="true"
-            (emiter)="modal(true)"></button-component>
+            (emiter)="modal(true,'agrega')"></button-component>
     </div>
     <div class="p-4 mt-1">
         <div class="row" cdkDropListGroup>
             <div class="col-12 col-md-4">
                 <h6>Sin Fecha asignada</h6>
                 <div cdkDropList [cdkDropListData]="drafts" class="example-list" (cdkDropListDropped)="onDrop($event)">
-                    <card-component style="cursor: move;" *ngFor="let item of drafts" cdkDrag [type]="item.type"
-                    [title]="item.title" [date]="item.startDate&&item.endDate ?( item.startDate.slice(0, 10) + ' to ' + item.endDate.slice(0, 10) ): null"></card-component>
+                    <ng-container *ngFor="let item of drafts">
+                        <card-component style="cursor: move;" cdkDrag [type]="item.type" [title]="item.title"
+                            (edit)="modal(true,'edita',item)" [start]="item.startDate&&item.startDate.slice(0, 10) "
+                            [end]="item.endDate&&item.endDate.slice(0, 10)"></card-component>
+                        </ng-container>
                 </div>
             </div>
 
@@ -18,25 +21,34 @@
                 <h6>In progress</h6>
                 <div cdkDropList [cdkDropListData]="inProgress" class="example-list"
                     (cdkDropListDropped)="onDrop($event)">
-                    <card-component style="cursor: move;" *ngFor="let item of inProgress" cdkDrag [type]="item.type"
-                    [title]="item.title" [date]="item.startDate&&item.endDate ?( item.startDate.slice(0, 10) + ' to ' + item.endDate.slice(0, 10) ): null"></card-component>
+                    <ng-container *ngFor="let item of inProgress">
+                        <card-component style="cursor: move;" cdkDrag [type]="item.type" [title]="item.title"
+                            (edit)="modal(true,'edita',item)" [start]="item.startDate&&item.startDate.slice(0, 10) "
+                            [end]="item.endDate&&item.endDate.slice(0, 10)"></card-component>
+                        </ng-container>
                 </div>
             </div>
             <div class="col-12 col-md-4">
                 <h6>Done</h6>
                 <div cdkDropList [cdkDropListData]="done" class="example-list" (cdkDropListDropped)="onDrop($event)">
-                    <card-component style="cursor: move;" *ngFor="let item of done" cdkDrag [type]="item.type"
-                        [title]="item.title" [date]="item.startDate&&item.endDate ?( item.startDate.slice(0, 10) + ' to ' + item.endDate.slice(0, 10) ): null"></card-component>
+                    <ng-container *ngFor="let item of done">
+                        <card-component style="cursor: move;" cdkDrag [type]="item.type" [title]="item.title"
+                            (edit)="modal(true,'edita',item)" [start]="item.startDate&&item.startDate.slice(0, 10) "
+                            [end]="item.endDate&&item.endDate.slice(0, 10)"></card-component>
+                        </ng-container>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div *ngIf="modalWindow" class="drawer" (click)="modal(false)">
+<div *ngIf="modalWindow" class="drawer" (click)="modal(false,'')">
 </div>
 <form *ngIf="modalWindow" class="drawer-content" [formGroup]="form">
-    <div class="w-100 p-3 bg-primary text-white">
+    <div class="w-100 p-3 bg-primary text-white" *ngIf="view==='agrega'">
         Agregar una nueva actividad
+    </div>
+    <div class="w-100 p-3 bg-primary text-white" *ngIf="view==='edita'">
+        Editar actividad
     </div>
     <div class="container ">
         <div class="row px-5 py-3">
@@ -60,7 +72,7 @@
                     style="margin-top: 20px; color: var(--bs-secondary); opacity:0.7;">
                     <mat-label>Fecha de fin</mat-label>
                     <input matInput type="date" min="1910-10-10" max="2080-10-10" formControlName="endDate"
-                        style="padding: 10px; font-size: 16px;" >
+                        style="padding: 10px; font-size: 16px;">
                 </mat-form-field>
             </div>
             <div class="col-12 col-md-8">
@@ -69,10 +81,10 @@
         </div>
     </div>
     <div class="row" style="position: absolute; bottom:40px; right:40px ;">
-        <div class="col"><button-component [label]="'Agregar'" [filled]="true"
+        <div class="col"><button-component [label]="view==='agrega'?'Agregar': 'Confimar'" [filled]="true"
                 (emiter)="agrega()" [disable]="form.invalid"></button-component></div>
         <div class="col"><button-component [label]="'Cancelar'" [filled]="false"
-                (emiter)="modal(false)"></button-component></div>
+                (emiter)="modal(false,'')"></button-component></div>
     </div>
 </form>
 <spinner-component *ngIf="loading" style="position: absolute; z-index: 999999;top: 0px; left: 0px;"></spinner-component>

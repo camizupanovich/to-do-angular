@@ -11,5 +11,6 @@
         </ng-container>
         <p class="ms-3 mb-0" style="font-weight:500;">{{title}}</p>
     </div>
-    <p class="mb-0 w-100 text-center" style="font-size: 14px; color:var(--bs-secondary)">{{date}}</p>
+    <p class="mb-0 w-100 text-center" style="font-size: 12px; color:var(--bs-secondary)">{{start}} <strong *ngIf="start&&end">TO</strong> {{end}}</p>
+    <button style="background: none; border: none; width: fit-content; position: absolute; right: 10px; top:10px; color:var(--bs-secondary)" (click)="editar()"><mat-icon>edit</mat-icon></button>
 </div>

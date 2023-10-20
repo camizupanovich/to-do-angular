@@ -29,12 +29,6 @@
     background-color: rgb(243, 243, 243);
 }
 
-@media (min-width:768px) {
-    .example-list {
-        min-height: 60vh;
-    }
-}
-
 .drawer {
     background-color: rgba(0, 0, 0, 0.26);
     position: absolute;
@@ -54,8 +48,17 @@
     right: 0;
     height: 100%;
     background-color: white;
-    width: 600px;
+    width: 100vw;
     animation: move 1s;
+}
+
+@media (min-width:768px) {
+    .example-list {
+        min-height: 60vh;
+    }
+    .drawer-content{
+        width: 600px;
+    }
 }
 
 @keyframes open {
@@ -70,18 +73,12 @@
 
 @keyframes move {
     0% {
-        transform: translateX(0);
+        opacity: 0;
+        transform: translateX(10);
     }
 
     100% {
+        opacity: 1;
         transform: translateX(0);
     }
 }
-/* .ng-trigger-transformPanel.ng-tns-c3393473648-4 {
-    /* Estilos personalizados */
-    /* top:20vh;
-    right: ;
-    position: absolute;
-    z-index: 9999; */
-    /* Otros estilos personalizados 
-  } */
